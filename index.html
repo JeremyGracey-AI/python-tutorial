@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Data Structures — Interactive Tutorial</title>
+  <meta name="description" content="Learn Python's most powerful built-in data structures with live, runnable code examples directly in your browser.">
+
+  <!-- Fonts: Fontshare -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <!-- Fonts: Google (JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Pyodide -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+</head>
+<body>
+
+<!-- ===== PYODIDE LOADING OVERLAY ===== -->
+<div class="pyodide-loader" id="pyodide-loader">
+  <div class="loader-spinner"></div>
+  <p>Initializing Python runtime…</p>
+  <p class="loader-sub">Pyodide is loading — this takes a few seconds on first visit</p>
+</div>
+
+<!-- ===== MOBILE OVERLAY ===== -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ===== MOBILE HEADER ===== -->
+<header class="mobile-header" id="mobile-header">
+  <div class="logo-row">
+    <!-- Snake + brackets logo mark -->
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none" aria-label="PyDocs logo" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+      <path d="M10 14C10 11.8 11.8 10 14 10H18V14H22C24.2 14 26 15.8 26 18C26 20.2 24.2 22 22 22H18V26H14C11.8 26 10 24.2 10 22V18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="14.5" cy="13.5" r="1.5" fill="white"/>
+      <circle cx="21.5" cy="22.5" r="1.5" fill="white"/>
+    </svg>
+    <span>PyDocs</span>
+  </div>
+  <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M3 5h14M3 10h14M3 15h14"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ===== SITE CONTAINER ===== -->
+<div class="site-container">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Tutorial navigation">
+    <div class="sidebar-header">
+      <!-- SVG Logo: Python snake/brackets motif -->
+      <svg class="logo-mark" viewBox="0 0 36 36" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+        <path d="M10 14C10 11.8 11.8 10 14 10H18V14H22C24.2 14 26 15.8 26 18C26 20.2 24.2 22 22 22H18V26H14C11.8 26 10 24.2 10 22V18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14.5" cy="13.5" r="1.5" fill="white"/>
+        <circle cx="21.5" cy="22.5" r="1.5" fill="white"/>
+      </svg>
+      <div class="logo-text">
+        <span>PyDocs</span>
+        <span>Interactive Tutorial</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Sections">
+      <div class="nav-section-label">Getting Started</div>
+      <button class="nav-item active" data-section="welcome" role="button">
+        <span class="nav-icon">⌂</span>
+        <span class="nav-label">Welcome</span>
+      </button>
+
+      <div class="nav-section-label">Data Structures</div>
+      <button class="nav-item" data-section="section-1" role="button">
+        <span class="nav-icon">{ }</span>
+        <span class="nav-label">dict</span>
+      </button>
+      <button class="nav-item" data-section="section-2" role="button">
+        <span class="nav-icon">↻</span>
+        <span class="nav-label">defaultdict</span>
+      </button>
+      <button class="nav-item" data-section="section-3" role="button">
+        <span class="nav-icon">⇅</span>
+        <span class="nav-label">OrderedDict</span>
+      </button>
+      <button class="nav-item" data-section="section-4" role="button">
+        <span class="nav-icon">#</span>
+        <span class="nav-label">Counter</span>
+      </button>
+      <button class="nav-item" data-section="section-5" role="button">
+        <span class="nav-icon">▲</span>
+        <span class="nav-label">heapq</span>
+      </button>
+      <button class="nav-item" data-section="section-6" role="button">
+        <span class="nav-icon">⌕</span>
+        <span class="nav-label">bisect</span>
+      </button>
+      <button class="nav-item" data-section="section-7" role="button">
+        <span class="nav-icon">⇌</span>
+        <span class="nav-label">deque</span>
+      </button>
+
+      <div class="nav-section-label">Python Syntax</div>
+      <button class="nav-item" data-section="section-8" role="button">
+        <span class="nav-icon">f"</span>
+        <span class="nav-label">f-strings</span>
+      </button>
+      <button class="nav-item" data-section="section-9" role="button">
+        <span class="nav-icon">[ ]</span>
+        <span class="nav-label">Comprehensions</span>
+      </button>
+      <button class="nav-item" data-section="section-10" role="button">
+        <span class="nav-icon">@</span>
+        <span class="nav-label">dataclass</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme">
+        <span id="theme-icon">☾</span>
+        <span id="theme-label">Dark mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content" id="main-content">
+
+    <!-- ===== HERO / WELCOME SECTION ===== -->
+    <section id="welcome" class="tutorial-section active" aria-label="Welcome">
+      <div class="hero">
+        <div class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="6"/></svg>
+          Runs in your browser — no installs needed
+        </div>
+        <h1>Master Python's<br><span class="accent">Essential Data Structures</span></h1>
+        <p class="hero-desc">
+          Ten focused, hands-on lessons covering the standard library features
+          that separate good Python from great Python. Every concept comes with
+          live, editable code you can run instantly.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-value">10</div>
+            <div class="stat-label">Lessons</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">25+</div>
+            <div class="stat-label">Code examples</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Dependencies</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Runs allowed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>How to use this tutorial</h3>
+        <p>
+          Each lesson explains a concept with clear prose, then gives you a live code
+          editor to experiment in. The code runs via <strong>Pyodide</strong> — a real
+          CPython runtime compiled to WebAssembly — so it behaves exactly like Python
+          on your machine.
+        </p>
+        <ul>
+          <li>Edit any code in the editor — it's fully interactive</li>
+          <li>Press <code>Run</code> or hit <code>Ctrl+Enter</code> / <code>Cmd+Enter</code> to execute</li>
+          <li>Hit <code>↺ Reset</code> to restore the original code</li>
+          <li>Navigate with the sidebar or the Prev/Next buttons</li>
+        </ul>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Try it now</h3>
+        <p>This playground is fully live. Edit the code and hit Run to verify Python is working:</p>
+      </div>
+
+      <!-- Welcome playground -->
+      <div class="code-playground reveal" data-example="welcome-demo">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">hello.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">topics = [
+    "dict", "defaultdict", "OrderedDict",
+    "Counter", "heapq", "bisect",
+    "deque", "f-strings", "Comprehensions", "dataclass"
+]
+
+print("Welcome to the Python Data Structures Tutorial!")
+print(f"You'll learn {len(topics)} topics:\n")
+
+for i, topic in enumerate(topics, 1):
+    print(f"  {i:2}. {topic}")
+
+print(f"\nLet's start with the fundamentals!")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn hidden" disabled>← Previous</button>
+        <button class="section-nav-btn" data-target="section-1">dict →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 1: dict ===== -->
+    <section id="section-1" class="tutorial-section" aria-label="Python Dictionaries">
+      <div class="section-header">
+        <div class="section-number">01 / 10</div>
+        <h2>dict — Python Dictionaries</h2>
+        <p class="section-desc">
+          The dictionary is Python's most versatile built-in data structure — a hash map
+          storing key-value pairs with O(1) average-case lookup. Understanding <code>dict</code>
+          deeply unlocks almost every other data structure in this course.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Creating and accessing dictionaries</h3>
+        <p>
+          Dictionaries are created with curly braces <code>{ }</code> or the <code>dict()</code>
+          constructor. Keys can be any hashable type — strings, numbers, tuples.
+          Access values with <code>d[key]</code> or the safer <code>d.get(key, default)</code>
+          which returns <code>None</code> (or your default) instead of raising a <code>KeyError</code>.
+        </p>
+        <ul>
+          <li><code>d.get(key)</code> — safe access, returns <code>None</code> if missing</li>
+          <li><code>d.get(key, default)</code> — returns <code>default</code> if key missing</li>
+          <li><code>key in d</code> — fast O(1) membership test</li>
+          <li><code>d.keys()</code>, <code>d.values()</code>, <code>d.items()</code> — view objects</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="dict-basics">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">dict_basics.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false"># Phone book application
+phonebook = {
+    "Alice": "555-1234",
+    "Bob":   "555-5678",
+    "Carol": "555-9012",
+}
+
+# Safe access with .get()
+print("Alice:", phonebook.get("Alice"))
+print("Dave:", phonebook.get("Dave", "Not found"))
+
+# Add and update entries
+phonebook["Dave"] = "555-3456"
+phonebook["Alice"] = "555-0000"  # overwrite
+
+print("\nUpdated phonebook:")
+for name, number in phonebook.items():
+    print(f"  {name}: {number}")
+
+print(f"\nContacts: {len(phonebook)}")
+print(f"'Bob' in phonebook: {'Bob' in phonebook}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Advanced dict features</h3>
+        <p>
+          Modern Python (3.9+) supports the merge operator <code>|</code> to combine
+          dictionaries. Dict comprehensions let you transform data concisely.
+          <code>setdefault()</code> inserts a key only if it doesn't already exist,
+          making it ideal for initializing nested structures.
+        </p>
+        <ul>
+          <li><code>a | b</code> — merge dicts (3.9+), <code>b</code> wins on conflicts</li>
+          <li><code>{k: v for k, v in ...}</code> — dict comprehension</li>
+          <li><code>d.setdefault(key, [])</code> — insert default only if missing</li>
+          <li><code>d.pop(key, default)</code> — remove and return value</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="dict-advanced">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">dict_advanced.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false"># Word frequency counter using dict comprehension
+text = "the quick brown fox jumps over the lazy dog the fox"
+words = text.split()
+
+# Manual approach with setdefault
+freq = {}
+for word in words:
+    freq[word] = freq.get(word, 0) + 1
+
+# Or as a comprehension (counts unique first, then accumulate)
+# Top words using dict comprehension to filter
+top = {k: v for k, v in freq.items() if v > 1}
+
+print("All word frequencies:")
+for word, count in sorted(freq.items(), key=lambda x: -x[1]):
+    bar = "█" * count
+    print(f"  {word:<8} {bar} ({count})")
+
+print(f"\nWords appearing more than once: {top}")
+
+# Merge two dicts (Python 3.9+)
+defaults = {"timeout": 30, "retries": 3, "verbose": False}
+overrides = {"timeout": 60, "verbose": True}
+config = defaults | overrides
+print(f"\nMerged config: {config}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Nested dictionaries</h3>
+        <p>
+          Dicts can hold any value — including other dicts. Use <code>setdefault</code>
+          or carefully structured comprehensions to build nested structures without
+          <code>KeyError</code> surprises.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="dict-nested">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">nested_dict.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false"># Student grade database
+students = [
+    ("Alice", "Math", 92),
+    ("Bob",   "Math", 78),
+    ("Alice", "Science", 88),
+    ("Bob",   "Science", 95),
+    ("Carol", "Math", 84),
+]
+
+# Build nested dict: {student: {subject: grade}}
+grades = {}
+for name, subject, grade in students:
+    grades.setdefault(name, {})[subject] = grade
+
+print("Student grade report:")
+for student, subjects in grades.items():
+    avg = sum(subjects.values()) / len(subjects)
+    print(f"\n  {student}:")
+    for subject, grade in subjects.items():
+        print(f"    {subject}: {grade}")
+    print(f"    Average: {avg:.1f}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="welcome">← Welcome</button>
+        <button class="section-nav-btn" data-target="section-2">defaultdict →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 2: defaultdict ===== -->
+    <section id="section-2" class="tutorial-section" aria-label="defaultdict">
+      <div class="section-header">
+        <div class="section-number">02 / 10</div>
+        <h2>defaultdict — Auto-Initializing Dicts</h2>
+        <p class="section-desc">
+          <code>collections.defaultdict</code> is a dict subclass that calls a factory
+          function to supply missing values automatically — eliminating the boilerplate
+          of <code>setdefault</code> and <code>key in d</code> checks.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>The problem with regular dicts</h3>
+        <p>
+          When building a dict that maps keys to lists or counts, a regular dict forces
+          you to check if the key exists before appending or incrementing. This leads to
+          repetitive <code>if key not in d: d[key] = []</code> patterns. <code>defaultdict</code>
+          eliminates all of that by automatically creating a default value on first access.
+        </p>
+        <ul>
+          <li><code>defaultdict(list)</code> — missing keys return an empty <code>[]</code></li>
+          <li><code>defaultdict(int)</code> — missing keys return <code>0</code></li>
+          <li><code>defaultdict(set)</code> — missing keys return an empty <code>set()</code></li>
+          <li>The factory can be any zero-argument callable, including lambdas</li>
+        </ul>
+        <div class="tip-box">
+          <p><strong>Tip:</strong> <code>defaultdict</code> is a drop-in replacement for <code>dict</code> — all regular dict methods work the same way.</p>
+        </div>
+      </div>
+
+      <div class="code-playground reveal" data-example="defaultdict-grouping">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">defaultdict_groups.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import defaultdict
+
+# Group students by grade level — no KeyError, no setdefault!
+students = [
+    ("Alice", "A"), ("Bob", "B"), ("Carol", "A"),
+    ("Dave", "C"), ("Eve", "B"), ("Frank", "A"),
+]
+
+# With regular dict (verbose):
+# groups = {}
+# for name, grade in students:
+#     if grade not in groups:
+#         groups[grade] = []
+#     groups[grade].append(name)
+
+# With defaultdict (clean):
+groups = defaultdict(list)
+for name, grade in students:
+    groups[name[0]]  # accessing a missing key auto-creates []
+    groups[grade].append(name)
+
+print("Students by grade:")
+for grade in sorted(groups):
+    print(f"  Grade {grade}: {', '.join(groups[grade])}")
+
+# Word count with defaultdict(int)
+text = "apple banana apple cherry banana apple"
+count = defaultdict(int)
+for word in text.split():
+    count[word] += 1  # no need to check if key exists
+
+print("\nWord counts:", dict(count))</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Graph adjacency list with defaultdict</h3>
+        <p>
+          One of the most common uses of <code>defaultdict(list)</code> is building
+          graph representations. Each node maps to a list of its neighbors, and
+          adding edges requires no initialization code.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="defaultdict-graph">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">graph_adjacency.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import defaultdict
+
+# Build an undirected graph with defaultdict(list)
+edges = [
+    ("A", "B"), ("A", "C"), ("B", "D"),
+    ("C", "D"), ("D", "E"), ("B", "E"),
+]
+
+graph = defaultdict(list)
+for u, v in edges:
+    graph[u].append(v)
+    graph[v].append(u)  # undirected
+
+print("Graph adjacency list:")
+for node in sorted(graph):
+    print(f"  {node} → {sorted(graph[node])}")
+
+# BFS traversal using the graph
+from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    order = []
+    while queue:
+        node = queue.popleft()
+        if node not in visited:
+            visited.add(node)
+            order.append(node)
+            queue.extend(sorted(graph[node]))
+    return order
+
+print(f"\nBFS from 'A': {bfs(graph, 'A')}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-1">← dict</button>
+        <button class="section-nav-btn" data-target="section-3">OrderedDict →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 3: OrderedDict ===== -->
+    <section id="section-3" class="tutorial-section" aria-label="OrderedDict">
+      <div class="section-header">
+        <div class="section-number">03 / 10</div>
+        <h2>OrderedDict — Ordered Dictionaries</h2>
+        <p class="section-desc">
+          <code>collections.OrderedDict</code> remembers insertion order (like all
+          modern Python dicts) but adds extra powers: <code>move_to_end()</code>,
+          order-sensitive equality, and popitem from either end — ideal for LRU caches.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>When to use OrderedDict over dict</h3>
+        <p>
+          Since Python 3.7, regular <code>dict</code> preserves insertion order too.
+          So why use <code>OrderedDict</code>? Two reasons: <code>move_to_end()</code>
+          lets you reorder keys in O(1), and two <code>OrderedDict</code>s compare
+          as unequal if their keys appear in different order — handy for history-aware data.
+        </p>
+        <ul>
+          <li><code>od.move_to_end(key)</code> — move to last position</li>
+          <li><code>od.move_to_end(key, last=False)</code> — move to first position</li>
+          <li><code>od.popitem(last=True)</code> — remove & return last item (LIFO)</li>
+          <li><code>od.popitem(last=False)</code> — remove & return first item (FIFO)</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="ordereddict-basics">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">ordereddict_ops.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import OrderedDict
+
+# Task queue where priority can change
+tasks = OrderedDict()
+tasks["email"]    = "medium"
+tasks["report"]   = "high"
+tasks["meeting"]  = "low"
+tasks["deploy"]   = "critical"
+
+print("Initial task order:")
+for task, priority in tasks.items():
+    print(f"  [{priority:8}] {task}")
+
+# Promote "email" to front (urgent!)
+tasks.move_to_end("email", last=False)
+# Demote "meeting" to end
+tasks.move_to_end("meeting")
+
+print("\nAfter reordering:")
+for task, priority in tasks.items():
+    print(f"  [{priority:8}] {task}")
+
+# Order-sensitive equality
+d1 = OrderedDict([("a", 1), ("b", 2)])
+d2 = OrderedDict([("b", 2), ("a", 1)])
+print(f"\nd1 == d2 (OrderedDict): {d1 == d2}")
+print(f"d1 == d2 (regular dict): {dict(d1) == dict(d2)}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>LRU Cache implementation</h3>
+        <p>
+          A Least Recently Used (LRU) cache evicts the oldest-accessed item when
+          capacity is full. <code>OrderedDict.move_to_end()</code> makes this elegant:
+          on every access, move the item to the back; on eviction, pop from the front.
+        </p>
+        <div class="tip-box">
+          <p><strong>Tip:</strong> Python's <code>functools.lru_cache</code> does this automatically for functions. Use <code>OrderedDict</code> when you need a manual, size-bounded cache structure.</p>
+        </div>
+      </div>
+
+      <div class="code-playground reveal" data-example="ordereddict-lru">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">lru_cache.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)  # mark as recently used
+        return self.cache[key]
+
+    def put(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)  # evict LRU item
+
+    def __repr__(self):
+        return f"LRU{list(self.cache.items())}"
+
+# Simulate cache with capacity 3
+cache = LRUCache(3)
+cache.put("page1", "Home")
+cache.put("page2", "About")
+cache.put("page3", "Blog")
+print(f"After 3 inserts: {cache}")
+
+cache.get("page1")            # access page1 → moves to end
+print(f"After get page1:  {cache}")
+
+cache.put("page4", "Contact") # page2 evicted (LRU)
+print(f"After add page4:  {cache}")
+print(f"page2 in cache: {cache.get('page2') != -1}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-2">← defaultdict</button>
+        <button class="section-nav-btn" data-target="section-4">Counter →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 4: Counter ===== -->
+    <section id="section-4" class="tutorial-section" aria-label="Counter">
+      <div class="section-header">
+        <div class="section-number">04 / 10</div>
+        <h2>Counter — Counting Made Easy</h2>
+        <p class="section-desc">
+          <code>collections.Counter</code> is a dict subclass designed for tallying
+          hashable objects. It includes powerful methods for finding top items,
+          combining counts, and set-like operations between tallies.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Creating and using Counter</h3>
+        <p>
+          Pass any iterable — string, list, tuple — to <code>Counter()</code> and it
+          counts element occurrences automatically. Missing keys return <code>0</code>
+          (not a <code>KeyError</code>). Counters support arithmetic: adding two
+          counters sums their counts; subtracting removes or zeros out.
+        </p>
+        <ul>
+          <li><code>Counter(iterable)</code> — count elements in one call</li>
+          <li><code>c.most_common(n)</code> — top <code>n</code> elements by count</li>
+          <li><code>c.elements()</code> — iterator over elements with repetition</li>
+          <li><code>c + d</code>, <code>c - d</code>, <code>c & d</code>, <code>c | d</code> — arithmetic ops</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="counter-basics">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">counter_basics.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import Counter
+
+# Character frequency analysis
+text = "mississippi"
+char_freq = Counter(text)
+
+print(f"Character frequencies in '{text}':")
+for char, count in char_freq.most_common():
+    bar = "█" * count
+    print(f"  '{char}': {bar} ({count})")
+
+# Most common characters
+top3 = char_freq.most_common(3)
+print(f"\nTop 3: {top3}")
+
+# Accessing missing keys returns 0 (no KeyError)
+print(f"\n'z' count: {char_freq['z']}")
+
+# elements() — iterate with repetition
+print(f"Sorted elements: {''.join(sorted(char_freq.elements()))}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Counter arithmetic and inventory tracking</h3>
+        <p>
+          Counter arithmetic is useful for inventory systems, shopping carts, and
+          any scenario where you combine or subtract tallies. The <code>&amp;</code>
+          operator finds the intersection (minimum counts), and <code>|</code> finds
+          the union (maximum counts).
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="counter-inventory">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">counter_inventory.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import Counter
+
+# Warehouse inventory
+warehouse = Counter({"apples": 50, "bananas": 30, "oranges": 20})
+# Customer order
+order = Counter({"apples": 8, "bananas": 5, "grapes": 3})
+
+print("Warehouse:", dict(warehouse))
+print("Order:", dict(order))
+
+# Process the order
+remaining = warehouse - order
+print("\nAfter fulfilling order:", dict(remaining))
+
+# Find what we can't fill (grapes not in warehouse)
+unfulfillable = order - warehouse
+print("Unfulfillable items:", dict(unfulfillable))
+
+# Restock arrival
+restock = Counter({"oranges": 40, "grapes": 25, "apples": 10})
+warehouse += restock
+print("\nAfter restock:", dict(warehouse))
+
+# Items in both warehouse AND order (intersection)
+overlap = warehouse & order
+print("Items in both:", dict(overlap))</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-3">← OrderedDict</button>
+        <button class="section-nav-btn" data-target="section-5">heapq →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 5: heapq ===== -->
+    <section id="section-5" class="tutorial-section" aria-label="heapq">
+      <div class="section-header">
+        <div class="section-number">05 / 10</div>
+        <h2>heapq — Priority Queues</h2>
+        <p class="section-desc">
+          Python's <code>heapq</code> module implements a min-heap on top of a regular
+          list, giving you O(log n) push and pop with the smallest element always at
+          index 0. The secret to priority queues, Dijkstra's algorithm, and efficient top-K problems.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Min-heap fundamentals</h3>
+        <p>
+          A heap is a complete binary tree where every parent is smaller than its
+          children. Python's <code>heapq</code> stores this as a flat list.
+          Always call <code>heapq.heapify()</code> to convert an existing list,
+          and use <code>heappush</code>/<code>heappop</code> to maintain the heap property.
+        </p>
+        <ul>
+          <li><code>heapq.heappush(heap, item)</code> — add item, O(log n)</li>
+          <li><code>heapq.heappop(heap)</code> — remove & return smallest, O(log n)</li>
+          <li><code>heapq.heapify(list)</code> — convert list to heap in-place, O(n)</li>
+          <li><code>heap[0]</code> — peek at smallest without removing, O(1)</li>
+        </ul>
+        <div class="tip-box">
+          <p><strong>Max-heap trick:</strong> Python only has min-heap. For max-heap, negate your values: push <code>-x</code> and negate when popping.</p>
+        </div>
+      </div>
+
+      <div class="code-playground reveal" data-example="heapq-scheduler">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">task_scheduler.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">import heapq
+
+# Priority queue: (priority, task_name)
+# Lower number = higher priority
+task_heap = []
+tasks = [
+    (3, "Write tests"),
+    (1, "Fix critical bug"),
+    (4, "Update docs"),
+    (2, "Code review"),
+    (1, "Deploy hotfix"),
+]
+
+for priority, name in tasks:
+    heapq.heappush(task_heap, (priority, name))
+
+print("Processing tasks (highest priority first):")
+while task_heap:
+    priority, name = heapq.heappop(task_heap)
+    print(f"  [P{priority}] {name}")
+
+# heapify an existing list
+numbers = [5, 1, 8, 3, 9, 2, 7]
+heapq.heapify(numbers)
+print(f"\nHeapified: {numbers}")
+print(f"Smallest element: {numbers[0]}")
+
+# nlargest and nsmallest
+data = [15, 3, 42, 7, 19, 1, 88, 23]
+print(f"\nTop 3 largest:  {heapq.nlargest(3, data)}")
+print(f"Top 3 smallest: {heapq.nsmallest(3, data)}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Merging sorted iterables</h3>
+        <p>
+          <code>heapq.merge()</code> combines multiple sorted iterables into a single
+          sorted stream without loading everything into memory — ideal for large data sets.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="heapq-merge">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">heapq_merge.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">import heapq
+
+# Merge sorted log files (by timestamp)
+server1_logs = [(1, "Request A"), (4, "Request D"), (7, "Request G")]
+server2_logs = [(2, "Request B"), (5, "Request E"), (8, "Request H")]
+server3_logs = [(3, "Request C"), (6, "Request F"), (9, "Request I")]
+
+merged = heapq.merge(server1_logs, server2_logs, server3_logs)
+
+print("Merged server logs (chronological):")
+for timestamp, event in merged:
+    source = "S1" if "A" in event or "D" in event or "G" in event else \
+             "S2" if "B" in event or "E" in event or "H" in event else "S3"
+    print(f"  t={timestamp}  [{source}]  {event}")
+
+# K largest elements using a min-heap of size k
+def k_largest(data, k):
+    heap = data[:k]
+    heapq.heapify(heap)
+    for item in data[k:]:
+        if item > heap[0]:
+            heapq.heapreplace(heap, item)
+    return sorted(heap, reverse=True)
+
+numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+print(f"\nTop 4 from {numbers}:")
+print(f"  {k_largest(numbers, 4)}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-4">← Counter</button>
+        <button class="section-nav-btn" data-target="section-6">bisect →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 6: bisect ===== -->
+    <section id="section-6" class="tutorial-section" aria-label="bisect">
+      <div class="section-header">
+        <div class="section-number">06 / 10</div>
+        <h2>bisect — Binary Search</h2>
+        <p class="section-desc">
+          The <code>bisect</code> module provides O(log n) binary search into already-sorted
+          lists, and efficient sorted insertion. Stop linear-scanning sorted data —
+          use bisect to find insertion points in microseconds.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>bisect_left and bisect_right</h3>
+        <p>
+          Both functions return the insertion point for a value in a sorted list.
+          <code>bisect_left</code> returns the leftmost position (before any existing
+          equal elements); <code>bisect_right</code> returns the rightmost position (after them).
+          <code>insort</code> combines find and insert in one O(log n) + O(n) call.
+        </p>
+        <ul>
+          <li><code>bisect.bisect_left(a, x)</code> — index of first item ≥ x</li>
+          <li><code>bisect.bisect_right(a, x)</code> — index of first item &gt; x</li>
+          <li><code>bisect.insort(a, x)</code> — insert x keeping sorted order</li>
+          <li>Use the returned index to search efficiently: <code>a[i] == x</code></li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="bisect-grades">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">bisect_grades.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">import bisect
+
+# Grade assignment using bisect
+# Classic recipe from Python docs
+breakpoints = [60, 70, 80, 90]
+grades      = ["F", "D", "C", "B", "A"]
+
+def letter_grade(score):
+    # bisect_right: score 90 → index 4 → "A"
+    # score 89 → index 3 → "B"
+    return grades[bisect.bisect_right(breakpoints, score)]
+
+scores = [45, 60, 72, 80, 88, 92, 100]
+print("Grade calculator:")
+for score in scores:
+    grade = letter_grade(score)
+    bar = "▓" * (score // 10)
+    print(f"  {score:3}  {bar}  → {grade}")
+
+# Count how many scores fall in each grade band
+from collections import Counter
+grade_dist = Counter(letter_grade(s) for s in scores)
+print(f"\nGrade distribution: {dict(sorted(grade_dist.items()))}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Maintaining a sorted list with insort</h3>
+        <p>
+          <code>bisect.insort()</code> keeps a list sorted as you add items —
+          no need to sort again after each insertion. This is much faster than
+          repeated <code>list.sort()</code> calls when you're inserting items one by one.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="bisect-insort">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">bisect_insort.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">import bisect
+
+# Leaderboard that stays sorted automatically
+scores = []
+
+def add_score(name, score):
+    # insort maintains ascending order
+    bisect.insort(scores, (score, name))
+
+def show_leaderboard():
+    print("Leaderboard (highest to lowest):")
+    for rank, (score, name) in enumerate(reversed(scores), 1):
+        print(f"  #{rank}  {name:<12} {score}")
+
+add_score("Alice",   1520)
+add_score("Bob",     1380)
+add_score("Carol",   1610)
+add_score("Dave",    1490)
+add_score("Eve",     1610)   # tie with Carol
+
+show_leaderboard()
+
+# Find insertion point for a new score
+new_score = 1500
+pos = bisect.bisect_left(scores, (new_score,))
+print(f"\nA score of {new_score} would rank #{len(scores) - pos + 1}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-5">← heapq</button>
+        <button class="section-nav-btn" data-target="section-7">deque →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 7: deque ===== -->
+    <section id="section-7" class="tutorial-section" aria-label="deque">
+      <div class="section-header">
+        <div class="section-number">07 / 10</div>
+        <h2>deque — Double-Ended Queue</h2>
+        <p class="section-desc">
+          <code>collections.deque</code> is a thread-safe, O(1) append and pop from
+          <em>both ends</em>. Unlike lists, prepending to a deque does not shift the
+          entire array — making it the right choice for queues, sliding windows, and history buffers.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>deque operations</h3>
+        <p>
+          Think of a deque as a double-ended tape. You can add or remove from
+          either end in constant time. The <code>maxlen</code> parameter caps the
+          size — new items push old ones off the opposite end automatically, which
+          is perfect for rolling windows and bounded history.
+        </p>
+        <ul>
+          <li><code>dq.append(x)</code> / <code>dq.appendleft(x)</code> — add to right/left</li>
+          <li><code>dq.pop()</code> / <code>dq.popleft()</code> — remove from right/left</li>
+          <li><code>dq.rotate(n)</code> — rotate right by n (negative = left)</li>
+          <li><code>deque(maxlen=n)</code> — auto-evicts oldest item on overflow</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="deque-history">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">browser_history.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import deque
+
+class BrowserHistory:
+    def __init__(self, max_history=5):
+        self.back_stack = deque()
+        self.forward_stack = deque()
+        self.current = None
+
+    def visit(self, url):
+        if self.current:
+            self.back_stack.append(self.current)
+        self.current = url
+        self.forward_stack.clear()
+        print(f"  → Visiting: {url}")
+
+    def back(self):
+        if self.back_stack:
+            self.forward_stack.append(self.current)
+            self.current = self.back_stack.pop()
+            print(f"  ← Back to: {self.current}")
+
+    def forward(self):
+        if self.forward_stack:
+            self.back_stack.append(self.current)
+            self.current = self.forward_stack.pop()
+            print(f"  → Forward to: {self.current}")
+
+browser = BrowserHistory()
+browser.visit("google.com")
+browser.visit("python.org")
+browser.visit("docs.python.org")
+browser.back()
+browser.back()
+browser.forward()
+browser.visit("pypi.org")   # clears forward history
+print(f"\nCurrent: {browser.current}")
+print(f"Can go back: {len(browser.back_stack)} pages")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Sliding window with maxlen</h3>
+        <p>
+          A <code>deque(maxlen=k)</code> automatically maintains a rolling window of
+          the last <code>k</code> items. As you append new items, the oldest are
+          automatically evicted from the left — no manual slice management needed.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="deque-window">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">sliding_window.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from collections import deque
+
+# Rolling average of sensor readings
+def rolling_average(data, window=3):
+    window_dq = deque(maxlen=window)
+    averages = []
+    for value in data:
+        window_dq.append(value)
+        avg = sum(window_dq) / len(window_dq)
+        averages.append(round(avg, 1))
+    return averages
+
+temps = [22, 24, 19, 21, 25, 28, 26, 23, 20, 18]
+avgs  = rolling_average(temps, window=3)
+
+print("Temperature sensor (rolling 3-day average):")
+print(f"{'Day':>4}  {'Temp':>6}  {'3d Avg':>8}")
+print("  " + "-" * 22)
+for i, (t, a) in enumerate(zip(temps, avgs), 1):
+    trend = "↑" if i > 1 and a > avgs[i-2] else "↓" if i > 1 else " "
+    print(f"  {i:>2}    {t:>4}°C    {a:>5}°C {trend}")
+
+# Palindrome checker using deque
+def is_palindrome(s):
+    dq = deque(s.lower().replace(" ", ""))
+    while len(dq) > 1:
+        if dq.popleft() != dq.pop():
+            return False
+    return True
+
+words = ["racecar", "hello", "level", "python", "madam"]
+print("\nPalindrome check:")
+for w in words:
+    print(f"  {w:<10} → {is_palindrome(w)}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-6">← bisect</button>
+        <button class="section-nav-btn" data-target="section-8">f-strings →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 8: f-strings ===== -->
+    <section id="section-8" class="tutorial-section" aria-label="f-strings">
+      <div class="section-header">
+        <div class="section-number">08 / 10</div>
+        <h2>f-strings — Modern String Formatting</h2>
+        <p class="section-desc">
+          F-strings (formatted string literals, introduced in Python 3.6) are the
+          fastest, most readable way to embed expressions in strings. They support
+          inline expressions, format specs, alignment, and even self-documenting
+          debug output with the <code>=</code> suffix.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Expressions and format specs</h3>
+        <p>
+          Any valid Python expression can go inside the curly braces of an f-string.
+          After the expression, add a colon and a format spec: <code>f"{value:.2f}"</code>
+          for two decimal places, <code>f"{value:&gt;10}"</code> for right-aligned in
+          10 characters, <code>f"{value:,}"</code> for thousands separator.
+        </p>
+        <ul>
+          <li><code>f"{x:.2f}"</code> — float with 2 decimal places</li>
+          <li><code>f"{x:,}"</code> — thousands separator</li>
+          <li><code>f"{x:&gt;10}"</code> / <code>f"{x:&lt;10}"</code> / <code>f"{x:^10}"</code> — alignment</li>
+          <li><code>f"{x=}"</code> — debug: prints <code>x=value</code> (Python 3.8+)</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="fstring-receipt">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">receipt.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false"># Receipt formatter using f-string alignment
+items = [
+    ("Python Cookbook",      3,  49.99),
+    ("Mechanical Keyboard",  1, 189.00),
+    ("USB-C Cable",          2,  12.50),
+    ("Coffee",               5,   4.75),
+]
+
+width = 42
+print("=" * width)
+print(f"{'RECEIPT':^{width}}")
+print("=" * width)
+print(f"{'Item':<22} {'Qty':>4} {'Price':>7} {'Total':>8}")
+print("-" * width)
+
+subtotal = 0
+for name, qty, price in items:
+    total = qty * price
+    subtotal += total
+    print(f"{name:<22} {qty:>4} {price:>7.2f} {total:>8.2f}")
+
+tax      = subtotal * 0.085
+grand    = subtotal + tax
+
+print("-" * width)
+print(f"{'Subtotal':>34} {subtotal:>8,.2f}")
+print(f"{'Tax (8.5%)':>34} {tax:>8,.2f}")
+print("=" * width)
+print(f"{'TOTAL':>34} {grand:>8,.2f}")
+print("=" * width)</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Debugging with = and number formatting</h3>
+        <p>
+          Python 3.8 added the <code>=</code> specifier: <code>f"{x=}"</code> expands to
+          <code>x=42</code> — the variable name and its value — which is extremely useful
+          for debugging without adding extra print arguments. You can combine it with
+          format specs: <code>f"{x=:.2f}"</code>.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="fstring-debug">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">fstring_debug.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">import math
+
+# Debug with = specifier (Python 3.8+)
+x = 42
+radius = 7.5
+area = math.pi * radius ** 2
+
+print(f"{x=}")
+print(f"{radius=}")
+print(f"{area=:.2f}")
+print(f"{math.sqrt(x)=:.4f}")
+
+# Number formatting showcase
+big_number = 1_234_567.89
+print(f"\n{'Format':<20} {'Result'}")
+print("-" * 40)
+print(f"  {{:,}}            → {big_number:,}")
+print(f"  {{:.2f}}          → {big_number:.2f}")
+print(f"  {{:,.2f}}         → {big_number:,.2f}")
+print(f"  {{:e}}            → {big_number:e}")
+print(f"  {{:010.2f}}       → {big_number:010.2f}")
+
+# Nested f-strings for dynamic formatting
+align = ">"
+width = 12
+value = 99.5
+print(f"\nDynamic alignment: '{f'{value:{align}{width}.1f}'}'")
+
+# Binary, hex, octal
+n = 255
+print(f"\n{n} in different bases:")
+print(f"  Binary:  {n:b}")
+print(f"  Octal:   {n:o}")
+print(f"  Hex:     {n:x}  (or uppercase: {n:X})")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-7">← deque</button>
+        <button class="section-nav-btn" data-target="section-9">Comprehensions →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 9: Comprehensions ===== -->
+    <section id="section-9" class="tutorial-section" aria-label="Comprehensions">
+      <div class="section-header">
+        <div class="section-number">09 / 10</div>
+        <h2>Comprehensions — Pythonic Iteration</h2>
+        <p class="section-desc">
+          Comprehensions are concise, readable syntax for building collections by
+          transforming and filtering iterables. Python supports list, dict, set, and
+          generator comprehensions — each unlocking a different pattern for writing
+          expressive, fast, idiomatic Python.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>List, dict, and set comprehensions</h3>
+        <p>
+          The formula is always: <code>[expression for item in iterable if condition]</code>.
+          The <code>if condition</code> part is optional. Dict comprehensions use
+          <code>{key: value for ...}</code>; set comprehensions use <code>{value for ...}</code>.
+        </p>
+        <ul>
+          <li><code>[x**2 for x in range(10)]</code> — list of squares</li>
+          <li><code>{k: v for k, v in d.items() if v &gt; 0}</code> — filter a dict</li>
+          <li><code>{word.lower() for word in text.split()}</code> — unique lowercase words</li>
+          <li>Comprehensions are 20–50% faster than equivalent <code>for</code>-loop + <code>append</code></li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="comprehension-basics">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">comprehensions.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false"># Data pipeline: transform, filter, aggregate
+
+sales = [
+    {"name": "Alice", "amount": 1200, "region": "North"},
+    {"name": "Bob",   "amount":  450, "region": "South"},
+    {"name": "Carol", "amount": 2100, "region": "North"},
+    {"name": "Dave",  "amount":  800, "region": "East"},
+    {"name": "Eve",   "amount": 1750, "region": "South"},
+]
+
+# List comprehension: filter high performers
+high_performers = [s["name"] for s in sales if s["amount"] > 1000]
+print(f"High performers (>$1000): {high_performers}")
+
+# Dict comprehension: name → amount mapping
+name_to_amount = {s["name"]: s["amount"] for s in sales}
+print(f"\nSales map: {name_to_amount}")
+
+# Set comprehension: unique regions
+regions = {s["region"] for s in sales}
+print(f"Regions: {regions}")
+
+# Dict comprehension: total by region
+from collections import defaultdict
+by_region = defaultdict(int)
+for s in sales:
+    by_region[s["region"]] += s["amount"]
+
+# Dict comprehension to format the result
+formatted = {k: f"${v:,}" for k, v in sorted(by_region.items())}
+print(f"\nRevenue by region: {formatted}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Nested comprehensions and generators</h3>
+        <p>
+          Comprehensions can be nested for matrix operations or flattening structures.
+          Generator expressions use <code>()</code> instead of <code>[]</code> and
+          are lazy — they compute one item at a time, using almost no memory. Use
+          generators when you only iterate once and don't need the full list in memory.
+        </p>
+        <div class="tip-box">
+          <p><strong>Tip:</strong> Pass a generator expression directly to <code>sum()</code>, <code>any()</code>, <code>all()</code>, <code>min()</code>, <code>max()</code> — no brackets needed: <code>sum(x**2 for x in data)</code></p>
+        </div>
+      </div>
+
+      <div class="code-playground reveal" data-example="comprehension-nested">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">nested_comprehensions.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false"># Matrix operations with nested comprehensions
+
+# Create a 4x4 identity matrix
+n = 4
+identity = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
+
+print("4×4 Identity matrix:")
+for row in identity:
+    print("  " + "  ".join(str(x) for x in row))
+
+# Matrix transpose
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+transpose = [[row[i] for row in matrix] for i in range(len(matrix[0]))]
+
+print("\nOriginal matrix:")
+for row in matrix:
+    print(" ", row)
+print("Transposed:")
+for row in transpose:
+    print(" ", row)
+
+# Flatten a nested list
+nested = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]
+flat = [x for sublist in nested for x in sublist]
+print(f"\nFlattened: {flat}")
+
+# Generator expression — memory efficient
+numbers = range(1, 1001)
+total   = sum(x**2 for x in numbers if x % 3 == 0)
+print(f"\nSum of squares (multiples of 3, 1-1000): {total:,}")
+
+# any() / all() with generators
+data = [2, 4, 6, 8, 10, 11]
+print(f"All even: {all(x % 2 == 0 for x in data)}")
+print(f"Any odd:  {any(x % 2 != 0 for x in data)}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-8">← f-strings</button>
+        <button class="section-nav-btn" data-target="section-10">dataclass →</button>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 10: dataclass ===== -->
+    <section id="section-10" class="tutorial-section" aria-label="dataclass">
+      <div class="section-header">
+        <div class="section-number">10 / 10</div>
+        <h2>dataclass — Modern Data Containers</h2>
+        <p class="section-desc">
+          <code>@dataclass</code> (Python 3.7+) automatically generates <code>__init__</code>,
+          <code>__repr__</code>, and <code>__eq__</code> from field annotations —
+          eliminating boilerplate for data-holding classes while adding optional
+          ordering, freezing (immutability), and post-init validation.
+        </p>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Basic dataclass usage</h3>
+        <p>
+          Annotate class-level variables with types and decorate with <code>@dataclass</code>.
+          Python generates <code>__init__</code> with matching parameters automatically.
+          Use <code>field(default_factory=list)</code> for mutable defaults — never use
+          mutable defaults directly (same rule as regular function arguments).
+        </p>
+        <ul>
+          <li><code>@dataclass</code> — generates <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code></li>
+          <li><code>@dataclass(frozen=True)</code> — immutable (hashable, usable as dict key)</li>
+          <li><code>@dataclass(order=True)</code> — generates <code>&lt;</code>, <code>&gt;</code>, etc.</li>
+          <li><code>field(default_factory=list)</code> — safe mutable default</li>
+          <li><code>__post_init__</code> — runs after <code>__init__</code> for validation</li>
+        </ul>
+      </div>
+
+      <div class="code-playground reveal" data-example="dataclass-basic">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">dataclass_basic.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from dataclasses import dataclass, field
+
+@dataclass
+class Product:
+    name:     str
+    price:    float
+    category: str = "General"
+    tags:     list = field(default_factory=list)
+
+    def discounted(self, pct):
+        return self.price * (1 - pct / 100)
+
+# __init__ is auto-generated
+laptop = Product("ThinkPad X1", 1299.99, "Electronics", ["work", "portable"])
+mouse  = Product("MX Master 3", 99.99, "Electronics")
+book   = Product("Fluent Python", 49.99)
+
+print(laptop)       # __repr__ is auto-generated
+print(mouse)
+print(book)
+
+# __eq__ compares field values
+p1 = Product("Widget", 9.99)
+p2 = Product("Widget", 9.99)
+print(f"\np1 == p2: {p1 == p2}")  # True — compares fields, not identity
+
+# Method usage
+print(f"\n{laptop.name} at 15% off: ${laptop.discounted(15):.2f}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Frozen dataclasses, ordering, and __post_init__</h3>
+        <p>
+          <code>frozen=True</code> makes instances immutable and hashable — you can
+          use them as dictionary keys or in sets. <code>order=True</code> generates
+          comparison methods based on field order. <code>__post_init__</code> runs
+          validation or derived-field computation right after <code>__init__</code>.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="dataclass-advanced">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">dataclass_advanced.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from dataclasses import dataclass, field
+from typing import ClassVar
+
+# Frozen + ordered: playing cards
+@dataclass(frozen=True, order=True)
+class Card:
+    rank: int   # sort key (compared first)
+    suit: str
+
+    SUITS: ClassVar = {"♠": "Spades", "♥": "Hearts", "♦": "Diamonds", "♣": "Clubs"}
+    RANKS: ClassVar = {1: "A", 11: "J", 12: "Q", 13: "K"}
+
+    def __str__(self):
+        rank_str = self.RANKS.get(self.rank, str(self.rank))
+        return f"{rank_str}{self.suit}"
+
+# Create a hand of cards
+hand = [Card(10, "♠"), Card(1, "♥"), Card(13, "♣"), Card(7, "♦"), Card(1, "♠")]
+print("Hand:", " ".join(str(c) for c in hand))
+print("Sorted:", " ".join(str(c) for c in sorted(hand)))
+
+# Frozen → hashable → usable in sets
+unique = set(hand)
+print(f"Unique cards: {len(unique)}")
+
+# __post_init__ for validation
+@dataclass
+class Config:
+    host:    str
+    port:    int = 8080
+    timeout: int = 30
+    url:     str = field(init=False)  # derived field
+
+    def __post_init__(self):
+        if not (1 <= self.port <= 65535):
+            raise ValueError(f"Invalid port: {self.port}")
+        self.url = f"http://{self.host}:{self.port}"
+
+cfg = Config("localhost", 3000)
+print(f"\nConfig: {cfg}")
+print(f"URL: {cfg.url}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="lesson-block reveal">
+        <h3>Inventory system — putting it all together</h3>
+        <p>
+          A real-world example combining <code>dataclass</code> with <code>field(default_factory)</code>,
+          <code>__post_init__</code> validation, and methods for a complete inventory management system.
+        </p>
+      </div>
+
+      <div class="code-playground reveal" data-example="dataclass-inventory">
+        <div class="code-toolbar">
+          <div class="code-toolbar-left">
+            <div class="dot-row"><span></span><span></span><span></span></div>
+            <span class="code-filename">inventory.py</span>
+          </div>
+          <div class="code-toolbar-right">
+            <button class="reset-btn" title="Reset code">↺ Reset</button>
+            <button class="run-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+              Run
+            </button>
+          </div>
+        </div>
+        <div class="code-editor-wrapper">
+          <textarea class="code-editor" spellcheck="false">from dataclasses import dataclass, field
+
+@dataclass
+class Item:
+    name:     str
+    price:    float
+    quantity: int = 0
+
+    def __post_init__(self):
+        if self.price < 0:
+            raise ValueError(f"Price cannot be negative: {self.price}")
+
+    @property
+    def value(self):
+        return self.price * self.quantity
+
+    def restock(self, qty):
+        self.quantity += qty
+        return self
+
+    def sell(self, qty):
+        if qty > self.quantity:
+            raise ValueError(f"Only {self.quantity} '{self.name}' in stock")
+        self.quantity -= qty
+        return self
+
+@dataclass
+class Inventory:
+    items: list = field(default_factory=list)
+
+    def add(self, item):
+        self.items.append(item)
+
+    def total_value(self):
+        return sum(i.value for i in self.items)
+
+    def low_stock(self, threshold=5):
+        return [i for i in self.items if i.quantity < threshold]
+
+    def report(self):
+        print(f"{'Item':<20} {'Price':>8} {'Qty':>6} {'Value':>10}")
+        print("-" * 48)
+        for item in sorted(self.items, key=lambda x: -x.value):
+            print(f"{item.name:<20} {item.price:>8.2f} {item.quantity:>6} {item.value:>10.2f}")
+        print("-" * 48)
+        print(f"{'TOTAL VALUE':>36} {self.total_value():>10.2f}")
+
+inv = Inventory()
+inv.add(Item("Laptop",     999.99).restock(10))
+inv.add(Item("Mouse",       29.99).restock(50))
+inv.add(Item("Keyboard",    79.99).restock(3))
+inv.add(Item("Monitor",    349.99).restock(7))
+
+inv.items[0].sell(3)
+inv.report()
+
+low = inv.low_stock()
+print(f"\nLow stock alert: {[i.name for i in low]}")</textarea>
+        </div>
+        <div class="code-output-wrapper">
+          <div class="code-output-header">
+            <span class="output-dot"></span>
+            <span>Output</span>
+          </div>
+          <div class="code-output">Click "Run" to execute</div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <button class="section-nav-btn" data-target="section-9">← Comprehensions</button>
+        <button class="section-nav-btn" data-target="welcome">↺ Start Over</button>
+      </div>
+    </section>
+
+  </main><!-- /.main-content -->
+</div><!-- /.site-container -->
+
+<!-- ===== PYODIDE STATUS INDICATOR ===== -->
+<div class="pyodide-status" id="pyodide-status" aria-live="polite">
+  <span class="status-dot"></span>
+  <span id="status-text">Loading Python…</span>
+</div>
+
+<!-- ===== INLINE JAVASCRIPT ===== -->
+<script>
+(function () {
+  'use strict';
+
+  // ──────────────────────────────────────────────
+  // STATE
+  // ──────────────────────────────────────────────
+  let pyodide = null;
+  let pyodideReady = false;
+  let currentTheme = 'light'; // no localStorage — use JS variable
+
+  // Store original code for each playground
+  const originalCode = new Map();
+
+  // ──────────────────────────────────────────────
+  // INIT: Capture original code from all textareas
+  // ──────────────────────────────────────────────
+  document.querySelectorAll('.code-playground').forEach(function (playground) {
+    const exampleId = playground.dataset.example;
+    const textarea  = playground.querySelector('.code-editor');
+    if (exampleId && textarea) {
+      originalCode.set(exampleId, textarea.value);
+    }
+  });
+
+  // ──────────────────────────────────────────────
+  // PYODIDE INITIALIZATION
+  // ──────────────────────────────────────────────
+  async function initPyodide() {
+    const loader     = document.getElementById('pyodide-loader');
+    const statusEl   = document.getElementById('pyodide-status');
+    const statusText = document.getElementById('status-text');
+
+    try {
+      pyodide = await loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/',
+      });
+
+      pyodideReady = true;
+
+      // Hide loading overlay
+      loader.classList.add('hidden');
+
+      // Update status indicator
+      statusEl.classList.add('ready');
+      statusText.textContent = 'Python ready';
+
+      // Fade out status after 2s
+      setTimeout(function () {
+        statusEl.style.opacity = '0';
+        statusEl.style.visibility = 'hidden';
+      }, 2000);
+
+    } catch (err) {
+      loader.querySelector('p').textContent = 'Failed to load Python runtime.';
+      loader.querySelector('.loader-sub').textContent = err.message;
+      statusText.textContent = 'Python failed to load';
+    }
+  }
+
+  // ──────────────────────────────────────────────
+  // CODE EXECUTION
+  // ──────────────────────────────────────────────
+  async function runCode(textarea, outputEl, dotEl) {
+    if (!pyodideReady) {
+      outputEl.innerHTML = '<span class="loading-text">Python is still loading… try again in a moment.</span>';
+      return;
+    }
+
+    const code = textarea.value;
+    outputEl.textContent = '';
+    dotEl.className = 'output-dot';
+
+    try {
+      // Redirect stdout to StringIO buffer
+      pyodide.runPython(`
+import sys, io
+_stdout = io.StringIO()
+sys.stdout = _stdout
+`);
+
+      await pyodide.runPythonAsync(code);
+
+      const output = pyodide.runPython('_stdout.getvalue()');
+      pyodide.runPython('sys.stdout = sys.__stdout__');
+
+      if (output && output.trim()) {
+        outputEl.textContent = output;
+        dotEl.className = 'output-dot success';
+      } else {
+        outputEl.textContent = '(No output)';
+        dotEl.className = 'output-dot success';
+      }
+    } catch (err) {
+      try { pyodide.runPython('sys.stdout = sys.__stdout__'); } catch (e) {}
+      // Clean up Pyodide traceback for readability
+      const msg = err.message || String(err);
+      outputEl.innerHTML = `<span class="error-text">${escapeHtml(msg)}</span>`;
+      dotEl.className = 'output-dot error';
+    }
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ──────────────────────────────────────────────
+  // RUN BUTTON WIRING
+  // ──────────────────────────────────────────────
+  document.querySelectorAll('.code-playground').forEach(function (playground) {
+    const runBtn   = playground.querySelector('.run-btn');
+    const resetBtn = playground.querySelector('.reset-btn');
+    const textarea = playground.querySelector('.code-editor');
+    const outputEl = playground.querySelector('.code-output');
+    const dotEl    = playground.querySelector('.output-dot');
+    const exampleId = playground.dataset.example;
+
+    if (runBtn && textarea && outputEl) {
+      runBtn.addEventListener('click', async function () {
+        runBtn.classList.add('running');
+        runBtn.textContent = '⟳ Running…';
+        await runCode(textarea, outputEl, dotEl);
+        runBtn.classList.remove('running');
+        runBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg> Run`;
+      });
+    }
+
+    if (resetBtn && textarea && exampleId) {
+      resetBtn.addEventListener('click', function () {
+        const original = originalCode.get(exampleId);
+        if (original !== undefined) {
+          textarea.value = original;
+          if (outputEl) {
+            outputEl.textContent = 'Click "Run" to execute';
+            if (dotEl) dotEl.className = 'output-dot';
+          }
+        }
+      });
+    }
+
+    // Keyboard shortcut: Ctrl+Enter / Cmd+Enter
+    if (textarea) {
+      textarea.addEventListener('keydown', async function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          if (runBtn) {
+            runBtn.classList.add('running');
+            runBtn.textContent = '⟳ Running…';
+            await runCode(textarea, outputEl, dotEl);
+            runBtn.classList.remove('running');
+            runBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg> Run`;
+          }
+        }
+
+        // Tab key inserts spaces
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const start = textarea.selectionStart;
+          const end   = textarea.selectionEnd;
+          textarea.value = textarea.value.substring(0, start) + '    ' + textarea.value.substring(end);
+          textarea.selectionStart = textarea.selectionEnd = start + 4;
+        }
+      });
+    }
+  });
+
+  // ──────────────────────────────────────────────
+  // SECTION NAVIGATION
+  // ──────────────────────────────────────────────
+  const sectionOrder = ['welcome', 'section-1', 'section-2', 'section-3', 'section-4',
+                        'section-5', 'section-6', 'section-7', 'section-8', 'section-9', 'section-10'];
+
+  function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.tutorial-section').forEach(function (s) {
+      s.classList.remove('active');
+    });
+
+    // Show target section
+    const target = document.getElementById(sectionId);
+    if (target) {
+      target.classList.add('active');
+    }
+
+    // Update nav active state
+    document.querySelectorAll('.nav-item').forEach(function (item) {
+      item.classList.toggle('active', item.dataset.section === sectionId);
+    });
+
+    // Scroll main content to top
+    const main = document.getElementById('main-content');
+    if (main) main.scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Close mobile sidebar
+    closeMobileSidebar();
+
+    // Trigger reveal animations for newly visible section
+    setTimeout(observeReveals, 100);
+  }
+
+  // Nav item clicks
+  document.querySelectorAll('.nav-item').forEach(function (item) {
+    item.addEventListener('click', function () {
+      const sectionId = item.dataset.section;
+      if (sectionId) showSection(sectionId);
+    });
+  });
+
+  // Section nav buttons (prev/next)
+  document.querySelectorAll('.section-nav-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const target = btn.dataset.target;
+      if (target) showSection(target);
+    });
+  });
+
+  // ──────────────────────────────────────────────
+  // THEME TOGGLE
+  // ──────────────────────────────────────────────
+  function applyTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    const icon  = document.getElementById('theme-icon');
+    const label = document.getElementById('theme-label');
+    if (icon)  icon.textContent  = theme === 'dark' ? '☀' : '☾';
+    if (label) label.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+  }
+
+  // Detect system preference on load
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(prefersDark ? 'dark' : 'light');
+
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
+
+  // ──────────────────────────────────────────────
+  // MOBILE SIDEBAR
+  // ──────────────────────────────────────────────
+  const sidebar        = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const hamburgerBtn   = document.getElementById('hamburger-btn');
+
+  function openMobileSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMobileSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', function () {
+      if (sidebar.classList.contains('open')) {
+        closeMobileSidebar();
+      } else {
+        openMobileSidebar();
+      }
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeMobileSidebar);
+  }
+
+  // ──────────────────────────────────────────────
+  // SCROLL REVEAL ANIMATIONS
+  // ──────────────────────────────────────────────
+  let revealObserver = null;
+
+  function observeReveals() {
+    const reveals = document.querySelectorAll('.reveal:not(.visible)');
+
+    if (revealObserver) {
+      reveals.forEach(function (el) { revealObserver.observe(el); });
+      return;
+    }
+
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  // Initial observe
+  observeReveals();
+
+  // ──────────────────────────────────────────────
+  // START PYODIDE
+  // ──────────────────────────────────────────────
+  initPyodide();
+
+})();
+</script>
+
+</body>
+</html>
